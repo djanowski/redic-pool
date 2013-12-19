@@ -1,7 +1,7 @@
 Redic::Pool
 ===========
 
-A Redis connection pool using [Redis](https://github.com/amakawa/redic).
+A Redis connection pool using [Redic](https://github.com/amakawa/redic).
 
 Usage
 -----
