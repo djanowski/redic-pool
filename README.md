@@ -18,3 +18,13 @@ Usage
 
     $redis.call("INFO", "clients")[/connected_clients:(\d+)/, 1]
     # => "10"
+
+With Ohm
+--------
+
+Assuming you use Ohm 2.0+:
+
+    require "redic/pool"
+    require "ohm"
+
+    Ohm.redis = Redic::Pool.new(ENV["REDIS_URL"], size: 10)
