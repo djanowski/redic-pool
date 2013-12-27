@@ -4,10 +4,14 @@ require "redic"
 class Redic::Pool
   VERSION = "0.1.0"
 
+  attr :url
   attr :pool
 
   def initialize(url, options = {})
+    @url = url
     @pool = ConnectionPool.new(size: options.fetch(:size, 10)) { Redic.new(url) }
+
+    @id = "redic-pool-#{object_id}"
   end
 
   def call(*args)
@@ -16,7 +20,18 @@ class Redic::Pool
     end
   end
 
-  def with(&block)
-    @pool.with(&block)
+  def queue(*args)
+    Thread.current[@id] || (Thread.current[@id] = [])
+    Thread.current[@id] << args
+  end
+
+  def commit
+    @pool.with do |client|
+      Thread.current[@id].each do |args|
+        client.queue(*args)
+      end
+
+      client.commit
+    end
   end
 end
