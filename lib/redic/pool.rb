@@ -8,10 +8,9 @@ class Redic::Pool
   attr :pool
 
   def initialize(url, options = {})
-    @url = url
-    @pool = ConnectionPool.new(size: options.fetch(:size, 10)) { Redic.new(url) }
-
-    @id = "redic-pool-#{object_id}"
+    @url  = url
+    @pool = ConnectionPool.new(size: options.fetch(:size, cores || 8)) { Redic.new(url) }
+    @id   = "redic-pool-#{object_id}"
   end
 
   def call(*args)
@@ -32,6 +31,25 @@ class Redic::Pool
       end
 
       client.commit
+    end
+  end
+  
+  def cores
+    case RbConfig::CONFIG['host_os'][/^[A-Za-z]+/]
+    when 'darwin'
+      Integer(`/usr/sbin/sysctl hw.ncpu`[/\d+/])
+    when 'linux'
+      if File.exists?("/sys/devices/system/cpu/present")
+        File.read("/sys/devices/system/cpu/present").split('-').last.to_i+1
+      else
+        Dir["/sys/devices/system/cpu/cpu*"].select { |n| n=~/cpu\d+/ }.count
+      end
+    when 'mingw', 'mswin'
+      Integer(ENV["NUMBER_OF_PROCESSORS"][/\d+/])
+    when 'freebsd'
+      Integer(`sysctl hw.ncpu`[/\d+/])
+    else
+      nil
     end
   end
 end
