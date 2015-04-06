@@ -31,7 +31,11 @@ class Redic::Pool
         client.queue(*args)
       end
 
-      client.commit
+      result = client.commit
+
+      Thread.current[@id].clear
+
+      result
     end
   end
 end

@@ -6,6 +6,10 @@ class Post < Ohm::Model
   attribute :title
 end
 
+class Comment < Ohm::Model
+  attribute :body
+end
+
 setup do
   Ohm.redis = Redic::Pool.new("redis://localhost:9999")
 end
@@ -15,6 +19,7 @@ test "Pool - basic" do
     Thread.new(i) do |i|
       10.times do |j|
         Post.create(title: "Foo #{i} #{j}").id
+        Comment.create(body: "Bar #{i} #{j}").id
       end
     end
   end
@@ -33,6 +38,7 @@ test "Pool - basic" do
     Thread.new(i) do |i|
       10.times do |j|
         Post.all.to_a
+        Comment.all.to_a
       end
     end
   end
