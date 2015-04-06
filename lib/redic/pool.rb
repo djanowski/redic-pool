@@ -2,7 +2,7 @@ require "connection_pool"
 require "redic"
 
 class Redic::Pool
-  VERSION = "1.0.0"
+  VERSION = "1.0.1"
 
   attr :url
   attr :pool

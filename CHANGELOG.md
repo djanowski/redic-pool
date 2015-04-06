@@ -1,3 +1,9 @@
+1.0.1 - 2015-04-06
+==================
+
+* Fixed a critical issue that prevented `Redic::Pool` objects from being used
+  across Ohm models. See https://github.com/soveran/ohm/issues/184.
+
 1.0.0 - 2013-12-27
 ==================
 
