@@ -27,9 +27,10 @@ class Redic::Pool
 
   def commit
     @pool.with do |client|
-      Thread.current[@id].each do |args|
+      (Thread.current[@id] || []).each do |args|
         client.queue(*args)
       end
+      Thread.current[@id] = [] # clear the thread queue
 
       result = client.commit
 
