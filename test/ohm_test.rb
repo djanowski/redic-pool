@@ -4,6 +4,8 @@ require "ohm"
 
 class Post < Ohm::Model
   attribute :title
+
+  index :title
 end
 
 class Comment < Ohm::Model
@@ -48,4 +50,13 @@ test "Pool - basic" do
   clients = Parsers.info(Ohm.redis.call("INFO", "clients")).fetch("connected_clients")
 
   assert_equal(clients, "10")
+end
+
+test "Pool - empty" do
+  record = Post.find(title: 'does_not_exist')
+
+  assert_equal(record.first, nil)
+  assert_equal(record.to_a, [])
+
+  teardown(Ohm.redis)
 end
