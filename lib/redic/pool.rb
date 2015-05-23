@@ -27,6 +27,9 @@ class Redic::Pool
 
   def commit
     @pool.with do |client|
+
+      break unless Thread.current[@id]
+
       Thread.current[@id].each do |args|
         client.queue(*args)
       end
