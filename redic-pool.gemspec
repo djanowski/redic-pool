@@ -1,4 +1,4 @@
-require "./lib/redic/pool"
+require "./lib/redic/version"
 
 Gem::Specification.new do |s|
   s.name = "redic-pool"
