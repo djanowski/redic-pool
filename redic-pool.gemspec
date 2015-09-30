@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- test/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
 
-  s.add_dependency("connection_pool")
   s.add_dependency("redic")
 
   s.add_development_dependency("cutest")
