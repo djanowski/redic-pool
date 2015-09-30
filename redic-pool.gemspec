@@ -1,7 +1,8 @@
-require "./lib/redic/pool"
+require "./lib/redic/version"
 
 Gem::Specification.new do |s|
   s.name = "redic-pool"
+  s.description = "A Redis connection pool using Redic"
 
   s.version = Redic::Pool::VERSION
 
@@ -19,8 +20,10 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- test/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
 
-  s.add_dependency("connection_pool")
-  s.add_dependency("redic")
+  s.add_runtime_dependency 'redic', '~> 1.5', '>= 1.5.0'
+  s.add_runtime_dependency 'connection_pool', '~> 2.2', '>= 2.2.0'
 
-  s.add_development_dependency("cutest")
+  s.add_development_dependency 'rake', '~> 10.4', '>= 10.4.2'
+  s.add_development_dependency 'cutest', '~> 1.2', '>= 1.2.2'
+  s.add_development_dependency 'ohm', '~> 2.3', '>= 2.3.0'
 end

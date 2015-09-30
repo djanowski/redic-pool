@@ -23,5 +23,5 @@ $redis = spawn("redis-server --dir /tmp --dbfilename '' --port 9999 --logfile /d
 sleep(0.5)
 
 def teardown(r)
-  r.pool.shutdown { |c| c.call("QUIT") }
+  r.pool.shutdown { |c| c.call!("QUIT") }
 end

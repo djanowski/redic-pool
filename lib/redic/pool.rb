@@ -2,8 +2,6 @@ require "connection_pool"
 require "redic"
 
 class Redic::Pool
-  VERSION = "1.0.1"
-
   attr :url
   attr :pool
 
@@ -19,6 +17,7 @@ class Redic::Pool
       client.call(*args)
     end
   end
+  alias_method :call!, :call
 
   def queue(*args)
     Thread.current[@id] || (Thread.current[@id] = [])
