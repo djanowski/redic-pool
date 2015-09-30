@@ -26,7 +26,7 @@ test "Pool - basic" do
 
   threads.each(&:join)
 
-  clients = Parsers.info(Ohm.redis.call("INFO", "clients")).fetch("connected_clients")
+  clients = Parsers.info(Ohm.redis.call!("INFO", "clients")).fetch("connected_clients")
 
   assert_equal(clients, "10")
 
@@ -45,7 +45,7 @@ test "Pool - basic" do
 
   threads.each(&:join)
 
-  clients = Parsers.info(Ohm.redis.call("INFO", "clients")).fetch("connected_clients")
+  clients = Parsers.info(Ohm.redis.call!("INFO", "clients")).fetch("connected_clients")
 
   assert_equal(clients, "10")
 end

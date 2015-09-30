@@ -12,11 +12,11 @@ Usage
 
     Array.new(100) do
       Thread.new do
-        $redis.call("GET", "foo")
+        $redis.call!("GET", "foo")
       end
     end.each(&:join)
 
-    $redis.call("INFO", "clients")[/connected_clients:(\d+)/, 1]
+    $redis.call!("INFO", "clients")[/connected_clients:(\d+)/, 1]
     # => "10"
 
 With Ohm

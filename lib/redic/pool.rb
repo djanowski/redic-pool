@@ -19,6 +19,7 @@ class Redic::Pool
       client.call(*args)
     end
   end
+  alias_method :call!, :call
 
   def queue(*args)
     Thread.current[@id] || (Thread.current[@id] = [])
