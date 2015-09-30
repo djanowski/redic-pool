@@ -2,6 +2,7 @@ require "./lib/redic/pool"
 
 Gem::Specification.new do |s|
   s.name = "redic-pool"
+  s.description = "A Redis connection pool using Redic"
 
   s.version = Redic::Pool::VERSION
 
