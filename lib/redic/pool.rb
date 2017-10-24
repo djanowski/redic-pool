@@ -7,9 +7,11 @@ class Redic::Pool
   attr :url
   attr :pool
 
-  def initialize(url, options = {})
+  def initialize(url = "redis://127.0.0.1:6379", timeout = 10_000_000, **opts)
+    opts[:size] = 10 unless opts.key?(:size)
+
     @url = url
-    @pool = ConnectionPool.new(size: options.fetch(:size, 10)) { Redic.new(url) }
+    @pool = ConnectionPool.new(opts) { Redic.new(url, timeout) }
 
     @id = "redic-pool-#{object_id}"
   end
