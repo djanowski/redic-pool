@@ -14,12 +14,6 @@ class Redic::Pool
     @id = "redic-pool-#{object_id}"
   end
 
-  def call(*args)
-    @pool.with do |client|
-      client.call(*args)
-    end
-  end
-
   def queue(*args)
     Thread.current[@id] || (Thread.current[@id] = [])
     Thread.current[@id] << args
@@ -37,5 +31,15 @@ class Redic::Pool
 
       result
     end
+  end
+
+  %w[call call!].each do |method|
+    eval <<-STR
+      def #{method}(*args)
+        pool.with do |client|
+          client.#{method}(*args)
+        end
+      end
+    STR
   end
 end
